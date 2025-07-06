@@ -1,5 +1,5 @@
 # yml goes here
-name: mlperf-inference-language-bert-BERT-Large-ONNX-fp32-cuda
+name: mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
 
 channels:
   - conda-forge
