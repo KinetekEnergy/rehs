@@ -140,7 +140,7 @@ class CustomMultiLineAction(npyscreen.MultiLineAction):
                 "^H": self._do_process_filtering_work,
                 "^L": self._show_detailed_process_info,
                 "^F": self._do_process_filtering_work,
-                "^E": self._enter_directory,  # TODO: implement with squeue stuff
+                "^E": self._enter_directory # TODO: implement with squeue stuff
             }
         )
         self._filtering_flag = False
@@ -188,7 +188,7 @@ class CustomMultiLineAction(npyscreen.MultiLineAction):
     # TODO: implement this with squeue
     def _enter_directory(self):
         pass
-
+    
     def _sort_by_time(self, *args, **kwargs):
         # frick .. that's why NPSManaged was required, i.e you can access the app instance within widgets
         self._logger.info("Sorting the process table by time")
@@ -286,12 +286,10 @@ class CustomMultiLineAction(npyscreen.MultiLineAction):
     def set_uncurtailed_process_data(self, processes_info):
         self._uncurtailed_process_data = processes_info
 
-
 # class TitleText(npyscreen.TitleText):
 #     """
 #     A widget for basic textual input
 #     """
-
 
 class MultiLineWidget(npyscreen.BoxTitle):
     """
@@ -720,7 +718,6 @@ class PtopGUI(npyscreen.NPSApp):
             self.keypress_timeout_default = int(self.refresh_rate / 100)
 
         self.draw()
-
 
 # class ConfiguratorGUI(PtopGUI):
 #     def __init__(self):
