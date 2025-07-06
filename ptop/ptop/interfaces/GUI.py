@@ -286,6 +286,10 @@ class CustomMultiLineAction(npyscreen.MultiLineAction):
     def set_uncurtailed_process_data(self, processes_info):
         self._uncurtailed_process_data = processes_info
 
+# class TitleText(npyscreen.TitleText):
+#     """
+#     A widget for basic textual input
+#     """
 
 class MultiLineWidget(npyscreen.BoxTitle):
     """
@@ -564,7 +568,7 @@ class PtopGUI(npyscreen.NPSApp):
 
     def draw(self):
         # Setting the main window form
-        self.window = WindowForm(parentApp=self, name="asdf")
+        self.window = WindowForm(parentApp=self, name="Configurator")
         MIN_ALLOWED_TERMINAL_WIDTH = 104
         MIN_ALLOWED_TERMINAL_HEIGHT = 28
 
@@ -614,55 +618,21 @@ class PtopGUI(npyscreen.NPSApp):
             )
         )
         self.basic_stats = self.window.add(
-            MultiLineWidget,
-            name="Overview",
-            relx=OVERVIEW_WIDGET_REL_X,
-            rely=OVERVIEW_WIDGET_REL_Y,
-            max_height=OVERVIEW_WIDGET_HEIGHT,
-            max_width=OVERVIEW_WIDGET_WIDTH,
+            npyscreen.TitleText,
+            name="Environment Name:",
+            value="my-conda-env",
         )
+
         self.basic_stats.value = ""
         self.basic_stats.entry_widget.editable = False
 
         ######    Memory Usage widget  #########
-        MEMORY_USAGE_WIDGET_REL_X = LEFT_OFFSET
-        MEMORY_USAGE_WIDGET_REL_Y = OVERVIEW_WIDGET_REL_Y + OVERVIEW_WIDGET_HEIGHT
         MEMORY_USAGE_WIDGET_HEIGHT = 3
         MEMORY_USAGE_WIDGET_WIDTH = int(50 * self.X_SCALING_FACTOR)
-        # self._logger.info("Trying to draw Memory Usage information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(MEMORY_USAGE_WIDGET_REL_X,
-        #                                                                                            MEMORY_USAGE_WIDGET_REL_X+MEMORY_USAGE_WIDGET_WIDTH,
-        #                                                                                            MEMORY_USAGE_WIDGET_REL_Y,
-        #                                                                                            MEMORY_USAGE_WIDGET_REL_Y+MEMORY_USAGE_WIDGET_HEIGHT)
-        #                                                                                            )
-        # self.memory_chart = self.window.add(MultiLineWidget,
-        #                                     name="Memory Usage",
-        #                                     relx=MEMORY_USAGE_WIDGET_REL_X,
-        #                                     rely=MEMORY_USAGE_WIDGET_REL_Y,
-        #                                     max_height=MEMORY_USAGE_WIDGET_HEIGHT,
-        #                                     max_width=MEMORY_USAGE_WIDGET_WIDTH
-        #                                     )
-        # self.memory_chart.value = ""
-        # self.memory_chart.entry_widget.editable = False
 
         ######    CPU Usage widget  #########
-        CPU_USAGE_WIDGET_REL_X = MEMORY_USAGE_WIDGET_REL_X + MEMORY_USAGE_WIDGET_WIDTH
-        CPU_USAGE_WIDGET_REL_Y = MEMORY_USAGE_WIDGET_REL_Y
         CPU_USAGE_WIDGET_HEIGHT = MEMORY_USAGE_WIDGET_HEIGHT
         CPU_USAGE_WIDGET_WIDTH = MEMORY_USAGE_WIDGET_WIDTH
-        # self._logger.info("Trying to draw CPU Usage information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(CPU_USAGE_WIDGET_REL_X,
-        #                                                                                         CPU_USAGE_WIDGET_REL_X+CPU_USAGE_WIDGET_WIDTH,
-        #                                                                                         CPU_USAGE_WIDGET_REL_Y,
-        #                                                                                         CPU_USAGE_WIDGET_REL_Y+CPU_USAGE_WIDGET_HEIGHT)
-        #                                                                                         )
-        # self.cpu_chart = self.window.add(MultiLineWidget,
-        #                                  name="CPU Usage",
-        #                                  relx=CPU_USAGE_WIDGET_REL_X,
-        #                                  rely=CPU_USAGE_WIDGET_REL_Y,
-        #                                  max_height=CPU_USAGE_WIDGET_HEIGHT,
-        #                                  max_width=CPU_USAGE_WIDGET_WIDTH
-        #                                  )
-        # self.cpu_chart.value = ""
-        # self.cpu_chart.entry_widget.editable = False
 
         ######    Processes Info widget  #########
         PROCESSES_INFO_WIDGET_REL_X = LEFT_OFFSET
@@ -679,16 +649,16 @@ class PtopGUI(npyscreen.NPSApp):
                 PROCESSES_INFO_WIDGET_REL_Y + PROCESSES_INFO_WIDGET_HEIGHT,
             )
         )
-        self.processes_table = self.window.add(
-            MultiLineActionWidget,
-            name="Processes [ Job ID - Partition - Name - User - ST - Time - Nodes - Nodelist (Reason) ]",
-            relx=PROCESSES_INFO_WIDGET_REL_X,
-            rely=PROCESSES_INFO_WIDGET_REL_Y,
-            max_height=PROCESSES_INFO_WIDGET_HEIGHT,
-            max_width=PROCESSES_INFO_WIDGET_WIDTH - 1,
-        )
-        self.processes_table.entry_widget.values = []
-        self.processes_table.entry_widget.scroll_exit = False
+        # self.processes_table = self.window.add(
+        #     MultiLineActionWidget,
+        #     name="Processes [ Job ID - Partition - Name - User - ST - Time - Nodes - Nodelist (Reason) ]",
+        #     relx=PROCESSES_INFO_WIDGET_REL_X,
+        #     rely=PROCESSES_INFO_WIDGET_REL_Y,
+        #     max_height=PROCESSES_INFO_WIDGET_HEIGHT,
+        #     max_width=PROCESSES_INFO_WIDGET_WIDTH - 1,
+        # )
+        # self.processes_table.entry_widget.values = []
+        # self.processes_table.entry_widget.scroll_exit = False
         # self.cpu_chart.entry_widget.editable = False
 
         ######   Actions widget  #########
@@ -752,7 +722,7 @@ class PtopGUI(npyscreen.NPSApp):
 # class ConfiguratorGUI(PtopGUI):
 #     def __init__(self):
 #         super().__init__()
-        
+
 #     def draw(self):
 #         # Setting the main window form
 #         self.window = WindowForm(parentApp=self, name="Dashboard")
@@ -909,7 +879,7 @@ class PtopGUI(npyscreen.NPSApp):
 #         """
 #             Earlier static dimensions (32*90) were used after multiplication with the corresponding
 #             scaling factors now the dimensions of the CPU_WIDGETS/MEMORY _WIDGETS are used for calculation
-#             of the dimensions of the charts. There is padding of width 1 between the boundaries of the widgets 
+#             of the dimensions of the charts. There is padding of width 1 between the boundaries of the widgets
 #             and the charts
 #             # self.CHART_WIDTH = int(self.CHART_WIDTH*self.X_SCALING_FACTOR)
 #             # self.CHART_HEIGHT = int(self.CHART_HEIGHT*self.Y_SCALING_FACTOR)
