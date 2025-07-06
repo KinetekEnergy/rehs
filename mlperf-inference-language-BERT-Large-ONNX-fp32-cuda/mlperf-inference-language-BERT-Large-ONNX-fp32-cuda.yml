@@ -2,30 +2,30 @@
 name: mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
 
 channels:
-  - conda-forge
-  - nvidia
+    - conda-forge
+    - nvidia
 
 dependencies:
-  - python=3.9.23
-  - pip
-  - conda-forge::onnx # for the onnx benchmark
+    - python=3.9.23
+    - pip
+    - conda-forge::onnx # for the onnx benchmark
 
-  # cuda stuff for nvidia GPU systems (amd ones are diff)
-  - nvidia::cuda
-  - cudnn
-  - pycuda
-  - conda-forge::cudatoolkit
+    # cuda stuff for nvidia GPU systems (amd ones are diff)
+    - nvidia::cuda
+    - cudnn
+    - pycuda
+    - conda-forge::cudatoolkit
 
-  # MLCFlow dependencies
-  - clang
-  - cmake
+    # MLCFlow dependencies
+    - clang
+    - cmake
 
-  - pip:
-    # Sourced from https://github.com/mlcommons/inference/blob/master/language/bert/Dockerfile
-    - torch==1.4.0 
-    - onnx==1.6.0 
-    - transformers==2.4.0
-    - onnxruntime==1.2.0 
-    - numpy==1.18.0 
-    - tokenization==1.0.7
+    - pip:
+        # Sourced from https://github.com/mlcommons/inference/blob/master/language/bert/Dockerfile
+        - torch==1.4.0 
+        - onnx==1.6.0 
+        - transformers==2.4.0
+        - onnxruntime==1.2.0 
+        - numpy==1.18.0 
+        - tokenization==1.0.7
 
