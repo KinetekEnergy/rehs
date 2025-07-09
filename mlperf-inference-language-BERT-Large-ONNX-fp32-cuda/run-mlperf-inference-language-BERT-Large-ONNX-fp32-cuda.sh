@@ -215,14 +215,14 @@ echo -e "[  \e[32mOK\e[0m  ] Running the inference benchmark"
 # Sourced from https://docs.mlcommons.org/inference/benchmarks/language/bert/#__tabbed_23_1
 
 # Run a testing version of the benchmark
-mlcr run-mlperf,inference,_size.10,_r5.0-dev \
+mlcr run-mlperf,inference,_full,_r5.0-dev \
    --model=bert-99 \
    --precision=float32 \
    --implementation=reference \
    --framework=pytorch \
    --category=datacenter \
    --scenario=Offline \
-   --execution_mode=valid \
+   --execution_mode=test \
    --device=cuda \
    --quiet
 
@@ -252,3 +252,6 @@ mlcr run-mlperf,inference,_size.10,_r5.0-dev \
 sleep 6000
 
 echo -e "[  \e[32mOK\e[0m  ] Script finished"
+
+# TODO:
+# try out offline and see how long it takes
