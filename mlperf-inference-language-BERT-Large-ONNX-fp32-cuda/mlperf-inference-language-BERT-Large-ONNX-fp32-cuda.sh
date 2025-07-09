@@ -69,14 +69,14 @@ declare -xr CONDA_ENV_NAME="$(grep '^name:' ${CONDA_ENV_YAML} | awk '{print $2}'
 ############### VARIABLE CONFIRMATION ###############
 #####################################################
 
-echo -e "[  \e[32mOK\e[0m  ] ${UNIX_TIME}"
-echo -e "[  \e[32mOK\e[0m  ] ${LOCAL_TIME}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_JOB_ID}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_ARRAY_JOB_ID}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_ARRAY_TASK_ID}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_JOB_SCRIPT_MD5}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_JOB_SCRIPT_SHA256}" 
-echo -e "[  \e[32mOK\e[0m  ] ${SLURM_JOB_SCRIPT_NUMBER_OF_LINES}"
+echo -e "[  \e[32mOK\e[0m  ]                              Unix time: ${UNIX_TIME}"
+echo -e "[  \e[32mOK\e[0m  ]                             Local time: ${LOCAL_TIME}" 
+echo -e "[  \e[32mOK\e[0m  ]                           Slurm job ID: ${SLURM_JOB_ID}" 
+echo -e "[  \e[32mOK\e[0m  ]                     Slurm array job ID: ${SLURM_ARRAY_JOB_ID}" 
+echo -e "[  \e[32mOK\e[0m  ]                    Slurm array task ID: ${SLURM_ARRAY_TASK_ID}" 
+echo -e "[  \e[32mOK\e[0m  ]                   Slurm job script MD5: ${SLURM_JOB_SCRIPT_MD5}" 
+echo -e "[  \e[32mOK\e[0m  ]                Slurm job script SHA256: ${SLURM_JOB_SCRIPT_SHA256}" 
+echo -e "[  \e[32mOK\e[0m  ] Slurm slurm job script number of lines: ${SLURM_JOB_SCRIPT_NUMBER_OF_LINES}"
 cat "${SLURM_JOB_SCRIPT}"
 
 #####################################################
