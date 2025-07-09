@@ -13,26 +13,20 @@
 #SBATCH --output=logs/%x.o%A.%a.%N
 #SBATCH --array=0
 
-echo "THIS SCRIPT IS INTERACTIVE."
-echo "Do you want to run in:"
-echo "(a)utopilot mode - follows default settings"
-echo "(i)nteractive mode - best for first-time users"
-read mode
+# echo "THIS SCRIPT IS INTERACTIVE."
+# echo "Do you want to run in:"
+# echo "(a)utopilot mode - follows default settings"
+# echo "(i)nteractive mode - best for first-time users"
+# read mode
 
-if [ $mode == "a" ]; then
-    echo -e "[  \e[32mOK\e[0m  ] Running in autopilot mode"
-elif [ $mode == "i" ]; then
-    echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode"
-else
-    echo -e "[\e[31mFAILED\e[0m] Invalid input"
-    echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode by default"
-fi
-
-#####################################################
-############### S-BATCH CONFIGURATION ###############
-#####################################################
-
-
+# if [ $mode == "a" ]; then
+#     echo -e "[  \e[32mOK\e[0m  ] Running in autopilot mode"
+# elif [ $mode == "i" ]; then
+#     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode"
+# else
+#     echo -e "[\e[31mFAILED\e[0m] Invalid input"
+#     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode by default"
+# fi
 
 set -euo pipefail
 
