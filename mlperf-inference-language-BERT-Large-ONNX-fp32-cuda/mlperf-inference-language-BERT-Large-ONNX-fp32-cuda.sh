@@ -214,7 +214,9 @@ fi
 printenv
 echo -e "[  \e[32mOK\e[0m  ] Running the inference benchmark"
 # Sourced from https://docs.mlcommons.org/inference/benchmarks/language/bert/#__tabbed_23_1
-mlcr run-mlperf,inference,_full,_r5.0-dev \
+
+# Run a testing version of the benchmark
+mlcr run-mlperf,inference,_size.10,_r5.0-dev \
    --model=bert-99 \
    --precision=float32 \
    --implementation=reference \
@@ -224,6 +226,18 @@ mlcr run-mlperf,inference,_full,_r5.0-dev \
    --execution_mode=valid \
    --device=cuda \
    --quiet
+
+# Run the full benchmark
+# mlcr run-mlperf,inference,_full,_r5.0-dev \
+#    --model=bert-99 \
+#    --precision=float32 \
+#    --implementation=reference \
+#    --framework=pytorch \
+#    --category=datacenter \
+#    --scenario=Offline \
+#    --execution_mode=valid \
+#    --device=cuda \
+#    --quiet
 
 # Bert 99.9 version instead of Bert 99
 # mlcr run-mlperf,inference,_full,_r5.0-dev \
