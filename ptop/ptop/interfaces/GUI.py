@@ -287,12 +287,6 @@ class CustomMultiLineAction(npyscreen.MultiLineAction):
         self._uncurtailed_process_data = processes_info
 
 
-# class TitleText(npyscreen.TitleText):
-#     """
-#     A widget for basic textual input
-#     """
-
-
 class MultiLineWidget(npyscreen.BoxTitle):
     """
     A framed widget containing multiline text
@@ -321,7 +315,7 @@ class WindowForm(npyscreen.FormBaseNew):
         pass
 
 
-class PtopGUI(npyscreen.NPSApp):
+class PtopGUI(npyscreen.NPSAppManaged):
     """
     GUI class for ptop.
     This controls the rendering of the main window and acts as the registering point
@@ -330,16 +324,30 @@ class PtopGUI(npyscreen.NPSApp):
 
     def __init__(self, statistics, stop_event, arg, sensor_refresh_rates):
         self.statistics = statistics
-        # Command line arguments passed, currently used for selecting themes
-        self.arg = arg
-        # Global stop event
         self.stop_event = stop_event
+        self.arg = arg
+        self.sensor_refresh_rates = sensor_refresh_rates
+
+    def onStart(self):
+        self.addForm("MAIN", Ptop)
+        # self.addForm("PREVIEW", PreviewForm, name="YAML Preview")
+        # self.addForm("SAVE", SaveForm, name="Save YAML File")
+
+
+class Ptop(npyscreen.Form):
+
+    def __init__(self):
+        self.statistics = self.parentApp.statistics
+        # Command line arguments passed, currently used for selecting themes
+        self.arg = self.parentApp.arg
+        # Global stop event
+        self.stop_event = self.parentApp.stop_event
         # thread for updating
         self.update_thread = None
         # Flag to check if user is interacting (not used)
         self.is_user_interacting = False
         # GUI refresh rate should be minimum of all sensor refresh rates
-        self.refresh_rate = min(sensor_refresh_rates.values())
+        self.refresh_rate = min(self.parentApp.sensor_refresh_rates.values())
 
         # Main form
         self.window = None
@@ -720,184 +728,3 @@ class PtopGUI(npyscreen.NPSApp):
             self.keypress_timeout_default = int(self.refresh_rate / 100)
 
         self.draw()
-
-
-# class ConfiguratorGUI(PtopGUI):
-#     def __init__(self):
-#         super().__init__()
-
-#     def draw(self):
-#         # Setting the main window form
-#         self.window = WindowForm(parentApp=self, name="Dashboard")
-#         MIN_ALLOWED_TERMINAL_WIDTH = 104
-#         MIN_ALLOWED_TERMINAL_HEIGHT = 28
-
-#         # Setting the terminal dimensions by querying the underlying curses library
-#         self._logger.info(
-#             "Detected terminal size to be {0}".format(self.window.curses_pad.getmaxyx())
-#         )
-#         global PREVIOUS_TERMINAL_HEIGHT, PREVIOUS_TERMINAL_WIDTH
-#         max_y, max_x = self.window.curses_pad.getmaxyx()
-#         PREVIOUS_TERMINAL_HEIGHT = max_y
-#         PREVIOUS_TERMINAL_WIDTH = max_x
-
-#         # Also make ptop exists cleanly if screen is drawn beyond the lower limit
-#         if max_x < MIN_ALLOWED_TERMINAL_WIDTH or max_y < MIN_ALLOWED_TERMINAL_HEIGHT:
-#             self._logger.info(
-#                 "Terminal sizes than width = 104 and height = 28, exiting"
-#             )
-#             sys.stdout.write(
-#                 "Ptop does not support terminals with resolution smaller than 104*28. Please resize your terminal and try again."
-#             )
-#             raise KeyboardInterrupt
-
-#         # Minimum terminal size should be used for scaling
-#         # $ tput cols & $ tput lines can be used for getting the terminal dimensions
-#         # ptop won't be reponsive beyond (cols=104, lines=27)
-#         self.Y_SCALING_FACTOR = float(max_y) / 28
-#         self.X_SCALING_FACTOR = float(max_x) / 104
-
-#         #####      Defaults            #######
-#         LEFT_OFFSET = 1
-#         TOP_OFFSET = 1
-
-#         #####      Overview widget     #######
-#         OVERVIEW_WIDGET_REL_X = LEFT_OFFSET
-#         OVERVIEW_WIDGET_REL_Y = TOP_OFFSET
-#         # equivalent to math.ceil =>  [ int(109.89) = 109 ]
-#         OVERVIEW_WIDGET_HEIGHT = 6  # int(6*self.Y_SCALING_FACTOR)
-#         OVERVIEW_WIDGET_WIDTH = (
-#             PREVIOUS_TERMINAL_WIDTH - 4  # int(100*self.X_SCALING_FACTOR)
-#         )
-#         self._logger.info(
-#             "Trying to draw Overview information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(
-#                 OVERVIEW_WIDGET_REL_X,
-#                 OVERVIEW_WIDGET_REL_X + OVERVIEW_WIDGET_WIDTH,
-#                 OVERVIEW_WIDGET_REL_Y,
-#                 OVERVIEW_WIDGET_REL_Y + OVERVIEW_WIDGET_HEIGHT,
-#             )
-#         )
-#         self.basic_stats = self.window.add(
-#             MultiLineWidget,
-#             name="Overview",
-#             relx=OVERVIEW_WIDGET_REL_X,
-#             rely=OVERVIEW_WIDGET_REL_Y,
-#             max_height=OVERVIEW_WIDGET_HEIGHT,
-#             max_width=OVERVIEW_WIDGET_WIDTH,
-#         )
-#         self.basic_stats.value = ""
-#         self.basic_stats.entry_widget.editable = False
-
-#         ######    Memory Usage widget  #########
-#         MEMORY_USAGE_WIDGET_REL_X = LEFT_OFFSET
-#         MEMORY_USAGE_WIDGET_REL_Y = OVERVIEW_WIDGET_REL_Y + OVERVIEW_WIDGET_HEIGHT
-#         MEMORY_USAGE_WIDGET_HEIGHT = 3
-#         MEMORY_USAGE_WIDGET_WIDTH = int(50 * self.X_SCALING_FACTOR)
-#         # self._logger.info("Trying to draw Memory Usage information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(MEMORY_USAGE_WIDGET_REL_X,
-#         #                                                                                            MEMORY_USAGE_WIDGET_REL_X+MEMORY_USAGE_WIDGET_WIDTH,
-#         #                                                                                            MEMORY_USAGE_WIDGET_REL_Y,
-#         #                                                                                            MEMORY_USAGE_WIDGET_REL_Y+MEMORY_USAGE_WIDGET_HEIGHT)
-#         #                                                                                            )
-#         # self.memory_chart = self.window.add(MultiLineWidget,
-#         #                                     name="Memory Usage",
-#         #                                     relx=MEMORY_USAGE_WIDGET_REL_X,
-#         #                                     rely=MEMORY_USAGE_WIDGET_REL_Y,
-#         #                                     max_height=MEMORY_USAGE_WIDGET_HEIGHT,
-#         #                                     max_width=MEMORY_USAGE_WIDGET_WIDTH
-#         #                                     )
-#         # self.memory_chart.value = ""
-#         # self.memory_chart.entry_widget.editable = False
-
-#         ######    CPU Usage widget  #########
-#         CPU_USAGE_WIDGET_REL_X = MEMORY_USAGE_WIDGET_REL_X + MEMORY_USAGE_WIDGET_WIDTH
-#         CPU_USAGE_WIDGET_REL_Y = MEMORY_USAGE_WIDGET_REL_Y
-#         CPU_USAGE_WIDGET_HEIGHT = MEMORY_USAGE_WIDGET_HEIGHT
-#         CPU_USAGE_WIDGET_WIDTH = MEMORY_USAGE_WIDGET_WIDTH
-#         # self._logger.info("Trying to draw CPU Usage information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(CPU_USAGE_WIDGET_REL_X,
-#         #                                                                                         CPU_USAGE_WIDGET_REL_X+CPU_USAGE_WIDGET_WIDTH,
-#         #                                                                                         CPU_USAGE_WIDGET_REL_Y,
-#         #                                                                                         CPU_USAGE_WIDGET_REL_Y+CPU_USAGE_WIDGET_HEIGHT)
-#         #                                                                                         )
-#         # self.cpu_chart = self.window.add(MultiLineWidget,
-#         #                                  name="CPU Usage",
-#         #                                  relx=CPU_USAGE_WIDGET_REL_X,
-#         #                                  rely=CPU_USAGE_WIDGET_REL_Y,
-#         #                                  max_height=CPU_USAGE_WIDGET_HEIGHT,
-#         #                                  max_width=CPU_USAGE_WIDGET_WIDTH
-#         #                                  )
-#         # self.cpu_chart.value = ""
-#         # self.cpu_chart.entry_widget.editable = False
-
-#         ######    Processes Info widget  #########
-#         PROCESSES_INFO_WIDGET_REL_X = LEFT_OFFSET
-#         PROCESSES_INFO_WIDGET_REL_Y = (
-#             OVERVIEW_WIDGET_REL_Y + OVERVIEW_WIDGET_HEIGHT
-#         )  # CPU_USAGE_WIDGET_REL_Y + CPU_USAGE_WIDGET_HEIGHT
-#         PROCESSES_INFO_WIDGET_HEIGHT = int(20 * self.Y_SCALING_FACTOR)
-#         PROCESSES_INFO_WIDGET_WIDTH = OVERVIEW_WIDGET_WIDTH + 1
-#         self._logger.info(
-#             "Trying to draw Processes information box, x1 {0} x2 {1} y1 {2} y2 {3}".format(
-#                 PROCESSES_INFO_WIDGET_REL_X,
-#                 PROCESSES_INFO_WIDGET_REL_X + PROCESSES_INFO_WIDGET_WIDTH,
-#                 PROCESSES_INFO_WIDGET_REL_Y,
-#                 PROCESSES_INFO_WIDGET_REL_Y + PROCESSES_INFO_WIDGET_HEIGHT,
-#             )
-#         )
-#         self.processes_table = self.window.add(
-#             MultiLineActionWidget,
-#             name="Processes [ Job ID - Partition - Name - User - ST - Time - Nodes - Nodelist (Reason) ]",
-#             relx=PROCESSES_INFO_WIDGET_REL_X,
-#             rely=PROCESSES_INFO_WIDGET_REL_Y,
-#             max_height=PROCESSES_INFO_WIDGET_HEIGHT,
-#             max_width=PROCESSES_INFO_WIDGET_WIDTH - 1,
-#         )
-#         self.processes_table.entry_widget.values = []
-#         self.processes_table.entry_widget.scroll_exit = False
-#         # self.cpu_chart.entry_widget.editable = False
-
-#         ######   Actions widget  #########
-#         # By default this widget takes 3 lines and 1 line for text and 2 for the invisible boundary lines
-#         # So (tput lines - rely) should be at least 3
-#         ACTIONS_WIDGET_REL_X = LEFT_OFFSET
-#         ACTIONS_WIDGET_REL_Y = (
-#             PROCESSES_INFO_WIDGET_REL_Y + PROCESSES_INFO_WIDGET_HEIGHT
-#         )
-#         self._logger.info(
-#             "Trying to draw the actions box, x1 {0} y1 {1}".format(
-#                 ACTIONS_WIDGET_REL_X, ACTIONS_WIDGET_REL_Y
-#             )
-#         )
-
-#         self.actions = self.window.add(
-#             MultiLineWidget,
-#             relx=ACTIONS_WIDGET_REL_X,
-#             rely=ACTIONS_WIDGET_REL_Y,
-#             name="Controls",
-#         )
-#         self.actions.value = "^K:Kill\t\t^N:Memory Sort\t\t^T:Time Sort\t\t^R:Reset\t\tg:Go to Top\t\t^Q:Quit\t\t^F:Filter\t\t^L:Process Info\t\t^E:Enter Directory"
-#         self.actions.display()
-#         self.actions.editable = False
-
-#         ######   CPU/Memory charts  #########
-#         """
-#             Earlier static dimensions (32*90) were used after multiplication with the corresponding
-#             scaling factors now the dimensions of the CPU_WIDGETS/MEMORY _WIDGETS are used for calculation
-#             of the dimensions of the charts. There is padding of width 1 between the boundaries of the widgets
-#             and the charts
-#             # self.CHART_WIDTH = int(self.CHART_WIDTH*self.X_SCALING_FACTOR)
-#             # self.CHART_HEIGHT = int(self.CHART_HEIGHT*self.Y_SCALING_FACTOR)
-#         """
-#         self.CHART_HEIGHT = int(math.floor((CPU_USAGE_WIDGET_HEIGHT - 2) * 4))
-#         self.CHART_WIDTH = int(math.floor((CPU_USAGE_WIDGET_WIDTH - 2) * 2))
-#         self._logger.info(
-#             "Memory and CPU charts dimension, width {0} height {1}".format(
-#                 self.CHART_WIDTH, self.CHART_HEIGHT
-#             )
-#         )
-
-#         # fix for index error
-#         self.cpu_array = [0] * self.CHART_WIDTH
-#         self.memory_array = [0] * self.CHART_WIDTH
-
-#         # add subwidgets to the parent widget
-#         self.window.edit()

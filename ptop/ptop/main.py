@@ -1,5 +1,6 @@
 import threading
 import logging
+import npyscreen
 import requests
 import argparse
 import sys
@@ -14,6 +15,7 @@ from ptop.interfaces import PtopGUI
 from ptop.plugins import SENSORS_LIST
 from ptop.constants import SUPPORTED_THEMES
 from huepy import *
+
 
 # Backwards compatibility for string input operation
 try:
@@ -61,7 +63,6 @@ def _update():
 
     except Exception as e:
         logger.info("Exception :: main.py :: Exception occured while updating ptop "+str(e))
-
 
 
 def main():
@@ -156,7 +157,7 @@ def main():
         						milli seconds less than 1000.
         						For example 500
                             ''')
-        
+
         parser.add_argument('-v',
                             action='version',
                             version='ptop {}'.format(__version__))
@@ -176,7 +177,7 @@ def main():
         ssrt = (results.ssrt if results.ssrt else 1000)
         ssrt = (1000 if ssrt>1000 else ssrt)
         nsrt = 1000 # network sensor rate is always 1 second
-    
+
         srts = [csrt, dsrt, msrt, nsrt, psrt, ssrt]
         sensor_refresh_rates = {SENSORS_LIST[i]: srts[i] for i in range(len(SENSORS_LIST))}
 
@@ -186,15 +187,14 @@ def main():
         # TODO ::  Catch the exception of the child thread and kill the application gracefully
         # https://stackoverflow.com/questions/2829329/catch-a-threads-exception-in-the-caller-thread-in-python
         s = Statistics(SENSORS_LIST,global_stop_event,sensor_refresh_rates)
-        # internally uses a thread Job 
+        # internally uses a thread Job
         s.generate()
         logger.info('Statistics generating started')
 
-        app = PtopGUI(s.statistics,global_stop_event,theme,sensor_refresh_rates)
+        app = PtopGUI(s.statistics, global_stop_event, theme, sensor_refresh_rates)
         # blocking call
         logger.info('Starting the GUI application')
         app.run()
-
 
     # catch the kill signals here and perform the clean up
     except KeyboardInterrupt:
