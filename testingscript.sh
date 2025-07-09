@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #SBATCH --job-name=hello-my-hostname-is
-#SBATCH --account=use300
+#SBATCH --account=ddp324
 #SBATCH --partition=debug
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1

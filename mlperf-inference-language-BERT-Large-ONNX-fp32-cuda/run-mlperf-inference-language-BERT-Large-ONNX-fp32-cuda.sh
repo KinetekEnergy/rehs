@@ -1,5 +1,18 @@
 #!/usr/bin/env sh
 
+#SBATCH --job-name=mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
+#SBATCH --account=ddp324
+#SBATCH --clusters=expanse
+#SBATCH --partition=gpu-shared
+#SBATCH --gpus=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=92G
+#SBATCH --time=01:00:00
+#SBATCH --output=logs/%x.o%A.%a.%N
+#SBATCH --array=0
+
 echo "THIS SCRIPT IS INTERACTIVE."
 echo "Do you want to run in:"
 echo "(a)utopilot mode - follows default settings"
@@ -19,18 +32,7 @@ fi
 ############### S-BATCH CONFIGURATION ###############
 #####################################################
 
-#SBATCH --job-name=mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
-#SBATCH --account=ddp324
-#SBATCH --clusters=expanse
-#SBATCH --partition=gpu-shared
-#SBATCH --gpus=1
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=92G
-#SBATCH --time=01:00:00
-#SBATCH --output=logs/%x.o%A.%a.%N
-#SBATCH --array=0
+
 
 set -euo pipefail
 
