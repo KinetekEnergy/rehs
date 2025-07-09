@@ -8,7 +8,7 @@ read mode
 
 if [ $mode == "a" ]; then
     echo -e "[  \e[32mOK\e[0m  ] Running in autopilot mode"
-if [ $mode == "i" ]; then
+elif [ $mode == "i" ]; then
     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode"
 else
     echo -e "[\e[31mFAILED\e[0m] Invalid input"
