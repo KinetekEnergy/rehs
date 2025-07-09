@@ -27,6 +27,7 @@
 #     echo -e "[\e[31mFAILED\e[0m] Invalid input"
 #     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode by default"
 # fi
+mode="a"
 
 set -euo pipefail
 
