@@ -214,35 +214,27 @@ printenv
 echo -e "[  \e[32mOK\e[0m  ] Running the inference benchmark"
 # Sourced from https://docs.mlcommons.org/inference/benchmarks/language/bert/#__tabbed_23_1
 
-# Run a testing version of the benchmark
-mlcr run-mlperf,inference,_full,_r5.0-dev \
+# Run test version of the benchmark
+# --framework=pytorch ?
+# --precision=float32 ?
+mlcr run-mlperf,inference,_find-performance,_full,_r5.0-dev \
    --model=bert-99 \
-   --precision=float32 \
    --implementation=reference \
-   --framework=pytorch \
+   --framework=onnx \
    --category=datacenter \
    --scenario=Offline \
    --execution_mode=test \
-   --device=cuda \
-   --quiet
+   --device=cuda  \
+   --quiet \
+   --test_query_count=500 --rerun
 
-# Run the full benchmark
+# Run full version of the benchmark
+# --framework=pytorch ?
+# --precision=float32 ?
 # mlcr run-mlperf,inference,_full,_r5.0-dev \
 #    --model=bert-99 \
-#    --precision=float32 \
 #    --implementation=reference \
-#    --framework=pytorch \
-#    --category=datacenter \
-#    --scenario=Offline \
-#    --execution_mode=valid \
-#    --device=cuda \
-#    --quiet
-
-# Bert 99.9 version instead of Bert 99
-# mlcr run-mlperf,inference,_full,_r5.0-dev \
-#    --model=bert-99.9 \
-#    --implementation=reference \
-#    --framework=pytorch \
+#    --framework=onnx \
 #    --category=datacenter \
 #    --scenario=Offline \
 #    --execution_mode=valid \
