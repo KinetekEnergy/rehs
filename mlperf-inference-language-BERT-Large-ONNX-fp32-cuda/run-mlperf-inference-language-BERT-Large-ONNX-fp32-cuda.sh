@@ -79,6 +79,13 @@ echo -e "[  \e[32mOK\e[0m  ] Slurm slurm job script number of lines: ${SLURM_JOB
 cat "${SLURM_JOB_SCRIPT}"
 
 #####################################################
+############### RUST INSTALLATION %##################
+#####################################################
+
+echo -e "[  \e[32mOK\e[0m  ] Installing Rust"
+nohup curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+#####################################################
 ############### CONDA INSTALLATION ##################
 #####################################################
 
