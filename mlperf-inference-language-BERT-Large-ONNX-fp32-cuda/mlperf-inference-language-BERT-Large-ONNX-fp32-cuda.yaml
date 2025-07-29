@@ -9,6 +9,7 @@ dependencies:
     - python=3.9.23
     - pip
     - conda-forge::onnx # for the onnx benchmark
+    - rust
 
     # cuda stuff for nvidia GPU systems (amd ones are diff)
     - nvidia::cuda
