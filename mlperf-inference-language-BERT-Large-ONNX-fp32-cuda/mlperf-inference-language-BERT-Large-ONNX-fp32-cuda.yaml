@@ -1,35 +1,34 @@
 name: mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
 channels:
-  - conda-forge
-  - nvidia
-  - defaults
-
+    - conda-forge
+    - nvidia
+    - defaults
 dependencies:
-  # Match ONNX 1.6.0 build matrix (py 3.6–3.8)
-  - python=3.8.16
+    # Match ONNX 1.6.0 build matrix (py 3.6–3.8)
+    - python=3.8.16
 
-  # CUDA stack pinned to 10.2 for PyCUDA compatibility
-  - cudatoolkit=10.2.89
-  - cudnn        # will match cudatoolkit automatically
+    # CUDA stack pinned to 10.2 for PyCUDA compatibility
+    - cudatoolkit=10.2.89
+    - cudnn        # will match cudatoolkit automatically
 
-  # PyCUDA build that’s compatible with cuda 10.2 and py 3.8
-  - pycuda=2022.1
+    # PyCUDA build that’s compatible with cuda 10.2 and py 3.8
+    - pycuda=2022.1
 
-  # ONNX and ONNX Runtime wheels for py3.8
-  - onnx=1.6.0
-  - onnxruntime=1.12.0
+    # ONNX and ONNX Runtime wheels for py3.8
+    - onnx=1.6.0
+    - onnxruntime=1.12.0
 
-  # Build tools (cmake ≥ 3.5)
-  - cmake
-  - clang
+    # Build tools (cmake ≥ 3.5)
+    - cmake
+    - clang
 
-  # Anything else you need from conda
-  - rust
+    # rust for some compile stuff
+    - rust
 
-  # The rest via pip
-  - pip
-  - pip:
-    - torch==1.12.0
-    - transformers==2.4.0
-    - numpy>=1.20
-    - tokenization==1.0.7
+    # The rest via pip
+    - pip
+    - pip:
+        - torch==1.12.0
+        - transformers==2.4.0
+        - numpy>=1.20
+        - tokenization==1.0.7
