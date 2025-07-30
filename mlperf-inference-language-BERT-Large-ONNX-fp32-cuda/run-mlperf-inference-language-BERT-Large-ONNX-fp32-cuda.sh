@@ -13,20 +13,6 @@
 #SBATCH --output=logs/%x.o%A.%a.%N
 #SBATCH --array=0
 
-# echo "THIS SCRIPT IS INTERACTIVE."
-# echo "Do you want to run in:"
-# echo "(a)utopilot mode - follows default settings"
-# echo "(i)nteractive mode - best for first-time users"
-# read mode
-
-# if [ $mode == "a" ]; then
-#     echo -e "[  \e[32mOK\e[0m  ] Running in autopilot mode"
-# elif [ $mode == "i" ]; then
-#     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode"
-# else
-#     echo -e "[\e[31mFAILED\e[0m] Invalid input"
-#     echo -e "[  \e[32mOK\e[0m  ] Running in interactive mode by default"
-# fi
 mode="a"
 
 set -euo pipefail
@@ -214,32 +200,28 @@ printenv
 echo -e "[  \e[32mOK\e[0m  ] Running the inference benchmark"
 # Sourced from https://docs.mlcommons.org/inference/benchmarks/language/bert/#__tabbed_23_1
 
-# Run test version of the benchmark
-# --framework=pytorch ?
-# --precision=float32 ?
-mlcr run-mlperf,inference,_find-performance,_full,_r5.0-dev \
---model=bert-99 \
---implementation=reference \
---framework=onnx \
---category=datacenter \
---scenario=Offline \
---execution_mode=test \
---device=cuda  \
---quiet \
---test_query_count=500 --rerun
-
 # Run full version of the benchmark
-# --framework=pytorch ?
-# --precision=float32 ?
-# mlcr run-mlperf,inference,_full,_r5.0-dev \
-#    --model=bert-99 \
+# mlcr run-mlperf,inference,_full,_r5.1-dev \
+#    --model=bert-99.9 \
 #    --implementation=reference \
-#    --framework=onnx \
+#    --framework=pytorch \
 #    --category=datacenter \
 #    --scenario=Offline \
 #    --execution_mode=valid \
 #    --device=cuda \
 #    --quiet
+
+# Run test version of the benchmark
+mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
+   --model=bert-99.9 \
+   --implementation=reference \
+   --framework=pytorch \
+   --category=datacenter \
+   --scenario=Offline \
+   --execution_mode=test \
+   --device=cuda  \
+   --quiet \
+   --test_query_count=500 --rerun
 
 sleep 6000
 
