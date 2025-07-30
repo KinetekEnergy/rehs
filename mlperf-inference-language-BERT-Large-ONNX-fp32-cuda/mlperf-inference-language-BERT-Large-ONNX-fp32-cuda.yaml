@@ -1,33 +1,31 @@
-# yml goes here
 name: mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
-
 channels:
-    - conda-forge
-    - nvidia
+  - conda-forge
+  - nvidia
+  - defaults
 
 dependencies:
-    - python=3.9.23
-    - pip
-    - conda-forge::onnx # for the onnx benchmark
-    - rust
+  - python=3.9.23
+  - pip
+  - conda-forge::rust
 
-    # cuda stuff for nvidia GPU systems (amd ones are diff)
-    - nvidia::cuda
-    - cudnn
-    - pycuda
-    - conda-forge::cudatoolkit
+  # Core ML / CUDA support
+  - nvidia::cuda
+  - cudnn
+  - pycuda
+  - conda-forge::cudatoolkit
 
-    # MLCFlow dependencies
-    - clang
-    - cmake
+  # ONNX and friends via conda-forge (wheels already built)
+  - conda-forge::onnx=1.6.0
+  - conda-forge::onnxruntime=1.12.0
 
-    - pip:
-        # Sourced from https://github.com/mlcommons/inference/blob/master/language/bert/Dockerfile
-        # note: the source is very bad and the packages installed are always old or not working
-        - torch==1.12.0 
-        - onnx==1.6.0 
-        - transformers==2.4.0
-        - onnxruntime==1.12.0 
-        - numpy>=1.20
-        - tokenization==1.0.7
+  # Build tools (cmake ≥ 3.5 pulled in here)
+  - clang
+  - cmake
 
+  # MLCFlow / Transformers stack via pip
+  - pip:
+      - torch==1.12.0
+      - transformers==2.4.0
+      - numpy>=1.20
+      - tokenization==1.0.7
