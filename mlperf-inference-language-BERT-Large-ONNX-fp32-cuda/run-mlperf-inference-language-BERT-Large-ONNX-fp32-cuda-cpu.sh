@@ -1,15 +1,14 @@
 #!/usr/bin/env sh
 
-#SBATCH --job-name=mlperf-inference-language-BERT-Large-ONNX-fp32-cuda
+#SBATCH --job-name=mlperf-inference-language-BERT-Large-ONNX-fp32-cuda-cpu
 #SBATCH --account=ddp324
 #SBATCH --clusters=expanse
-#SBATCH --partition=gpu-shared
-#SBATCH --gpus=1
+#SBATCH --partition=compute
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=128
 #SBATCH --mem=92G
-#SBATCH --time=01:00:00
+#SBATCH --time=48:00:00
 #SBATCH --output=logs/%x.o%A.%a.%N
 #SBATCH --array=0
 
@@ -220,7 +219,7 @@ mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
    --category=datacenter \
    --scenario=Offline \
    --execution_mode=test \
-   --device=cuda  \
+   --device=cpu  \
    --quiet \
    --test_query_count=500 --rerun \
    --skip-install-cuda
