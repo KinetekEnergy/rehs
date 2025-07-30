@@ -19,6 +19,7 @@ dependencies:
     # Build tools (cmake ≥ 3.5)
     - cmake
     - clang
+    - libxcrypt
 
     # rust for some compile stuff
     - rust
