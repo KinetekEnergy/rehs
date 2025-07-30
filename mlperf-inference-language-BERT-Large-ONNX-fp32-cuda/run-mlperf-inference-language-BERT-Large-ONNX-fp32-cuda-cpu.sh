@@ -226,7 +226,20 @@ mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
 
 sleep 6000
 
-echo -e "[  \e[32mOK\e[0m  ] Script finished"
+#####################################################
+############### SAVE RESULTS TO LUSTRE ##############
+#####################################################
 
-# TODO:
-# try out offline and see how long it takes
+declare -xr RESULTS_DIR="${LUSTRE_PROJECT_DIR}/results/${SLURM_JOB_NAME}-${SLURM_JOB_ID}-${LOCAL_TIME}"
+mkdir -p "${RESULTS_DIR}"
+
+echo -e "[  \e[32mOK\e[0m  ] Copying results to ${RESULTS_DIR}"
+cp -r "${LOCAL_SCRATCH_DIR}/." "${RESULTS_DIR}/"
+
+echo -e "[  \e[32mOK\e[0m  ] Results copied successfully"
+
+#####################################################
+###################### FINISHED #####################
+#####################################################
+
+echo -e "[  \e[32mOK\e[0m  ] Script finished"
