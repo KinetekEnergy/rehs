@@ -8,10 +8,9 @@ dependencies:
     - python=3.8.16
 
     
-    - cudatoolkit=10.2.89 # CUDA stack pinned to 10.2 for PyCUDA compatibility
     - cudnn # will match cudatoolkit automatically
     - nvidia::cuda
-    - conda-forge::pycuda # conda-forge::pycuda=2022.1   # PyCUDA build that’s compatible with cuda 10.2 and py 3.8
+    - conda-forge::pycuda=2024.1
 
     # ONNX and ONNX Runtime wheels for py3.8
     - onnx=1.6.0
