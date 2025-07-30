@@ -5,27 +5,31 @@ channels:
   - defaults
 
 dependencies:
-  - python=3.9.23
-  - pip
-  - conda-forge::rust
+  # Match ONNX 1.6.0 build matrix (py 3.6–3.8)
+  - python=3.8.16
 
-  # Core ML / CUDA support
-  - nvidia::cuda
-  - cudnn
-  - pycuda
-  - conda-forge::cudatoolkit
+  # CUDA stack pinned to 10.2 for PyCUDA compatibility
+  - cudatoolkit=10.2.89
+  - cudnn        # will match cudatoolkit automatically
 
-  # ONNX and friends via conda-forge (wheels already built)
-  - conda-forge::onnx=1.6.0
-  - conda-forge::onnxruntime=1.12.0
+  # PyCUDA build that’s compatible with cuda 10.2 and py 3.8
+  - pycuda=2022.1
 
-  # Build tools (cmake ≥ 3.5 pulled in here)
-  - clang
+  # ONNX and ONNX Runtime wheels for py3.8
+  - onnx=1.6.0
+  - onnxruntime=1.12.0
+
+  # Build tools (cmake ≥ 3.5)
   - cmake
+  - clang
 
-  # MLCFlow / Transformers stack via pip
+  # Anything else you need from conda
+  - rust
+
+  # The rest via pip
+  - pip
   - pip:
-      - torch==1.12.0
-      - transformers==2.4.0
-      - numpy>=1.20
-      - tokenization==1.0.7
+    - torch==1.12.0
+    - transformers==2.4.0
+    - numpy>=1.20
+    - tokenization==1.0.7
