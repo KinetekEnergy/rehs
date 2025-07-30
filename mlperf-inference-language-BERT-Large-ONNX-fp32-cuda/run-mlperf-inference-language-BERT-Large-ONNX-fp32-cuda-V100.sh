@@ -201,29 +201,29 @@ echo -e "[  \e[32mOK\e[0m  ] Running the inference benchmark"
 # Sourced from https://docs.mlcommons.org/inference/benchmarks/language/bert/#__tabbed_23_1
 
 # Run full version of the benchmark
-# mlcr run-mlperf,inference,_full,_r5.1-dev \
-#    --model=bert-99.9 \
-#    --implementation=reference \
-#    --framework=pytorch \
-#    --category=datacenter \
-#    --scenario=Offline \
-#    --execution_mode=valid \
-#    --device=cuda \
-#    --quiet \
-#    --skip-install-cuda
-
-# Run test version of the benchmark
-mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
+mlcr run-mlperf,inference,_full,_r5.1-dev \
    --model=bert-99.9 \
    --implementation=reference \
    --framework=pytorch \
    --category=datacenter \
    --scenario=Offline \
-   --execution_mode=test \
-   --device=cuda  \
+   --execution_mode=valid \
+   --device=cuda \
    --quiet \
-   --test_query_count=500 --rerun \
    --skip-install-cuda
+
+# Run test version of the benchmark
+# mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
+#    --model=bert-99.9 \
+#    --implementation=reference \
+#    --framework=pytorch \
+#    --category=datacenter \
+#    --scenario=Offline \
+#    --execution_mode=test \
+#    --device=cuda  \
+#    --quiet \
+#    --test_query_count=500 --rerun \
+#    --skip-install-cuda
 
 sleep 6000
 
