@@ -207,7 +207,7 @@ mlcr run-mlperf,inference,_full,_r5.1-dev \
    --category=datacenter \
    --scenario=Offline \
    --execution_mode=valid \
-   --device=cuda \
+   --device=cpu \
    --quiet \
    --skip-install-cuda
 
