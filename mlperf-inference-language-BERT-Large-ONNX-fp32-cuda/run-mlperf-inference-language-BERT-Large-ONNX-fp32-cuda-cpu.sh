@@ -209,7 +209,8 @@ mlcr run-mlperf,inference,_full,_r5.1-dev \
    --execution_mode=valid \
    --device=cpu \
    --quiet \
-   --skip-install-cuda
+   --skip-install-cuda \
+   --offline_target_qps=600
 
 # Run test version of the benchmark
 # mlcr run-mlperf,inference,_find-performance,_full,_r5.1-dev \
