@@ -1,0 +1,33 @@
+name: mlperf-inference-text-to-image-stable-diffusion-xl-python-datacenter-pytorch-cuda
+channels:
+  - conda-forge
+  - nvidia
+  - pytorch
+dependencies:
+  - python=3.9.23
+  - pandas=2.2.3
+  - numpy=1.26.4
+  - pip
+
+  - nvidia::cuda
+  - cudnn
+  - pycuda==2024.1
+
+  # MLCFlow dependencies
+  - clang
+  - cmake
+
+  # From mlcommons/inference requirements.txt
+  - pytorch
+  - torchvision
+  - scipy
+  - opencv
+
+  - pip:
+    # From mlcommons/inference requirements.txt
+    - diffusers==0.30.3
+    - transformers==4.45.2
+    - accelerate==1.0.1
+    - open-clip-torch==2.26.1
+    - pycocotools==2.0.7
+    - torchmetrics[image]==1.4.3
